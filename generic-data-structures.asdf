@@ -1,0 +1,2 @@
+(defsystem "generic-data-structures"
+  :description "A library containing generic data structures."

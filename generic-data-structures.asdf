@@ -1,2 +1,6 @@
 (defsystem "generic-data-structures"
   :description "A library containing generic data structures."
+  :version "0.1.0"
+  :author "Victor Fors <krakow89@gmail.com>"
+  :licence "GPL3"
+  :

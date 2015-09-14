@@ -7,10 +7,10 @@
 (declaim
  (optimize
   (compilation-speed 0)
-  (debug 0)
-  (safety 0)
+  (debug 3)
+  (safety 3)
   (space 2)
-  (speed 3)))
+  (speed 2)))
 
 (defclass quad-tree ()
   ((

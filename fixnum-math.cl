@@ -30,9 +30,13 @@
   "FIXNUM decrementation of X."
   (the fixnum (1- x)))
 
+(assert (= 1 (dec 2)))
+
 (defun inc (x)
   "FIXNUM incrementation of X."
   (the fixnum (1+ x)))
+
+(assert (= 2 (inc 1)))
 
 (defun pow (x y)
   "FIXNUM X to the power of Y."
@@ -43,9 +47,13 @@
 		  (inner x (1- n) (mul r x)))))
     (inner x y x)))
 
+(assert (= 256 (pow 2 7)))
+
 (defun add (x y)
   "FIXNUM addition of X and Y."
   (the fixnum (+ x y)))
+
+(assert (= 4 (add 2 2)))
 
 (defun sum (ln)
   "FIXNUM summation of the LIST LN."
@@ -58,6 +66,10 @@
 			(add r (car ln))))))
     (inner ln 0)))
 
+(assert (= 8 (sum (list 2 2 4))))
+
 (defun mul (x y)
   "FIXNUM product of X and Y."
   (the fixnum (* x y)))
+
+(assert (= 4 (mul 2 2)))

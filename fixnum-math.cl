@@ -1,6 +1,7 @@
 (defpackage :fixnum-math
   (:use :common-lisp)
   (:export :pow
+           :sub
 	   :add
 	   :sum
 	   :mul
@@ -19,11 +20,11 @@
   (speed 3)))
 
 (declaim
- (inline pow add sum mul dec inc)
+ (inline pow sub add sum mul dec inc)
  (ftype (function (fixnum) fixnum)
 	dec inc)
  (ftype (function (fixnum fixnum) fixnum)
-	pow add mul)
+	pow sub add mul)
  (ftype (function (list) fixnum) sum))
 
 (defun dec (x)
@@ -48,6 +49,12 @@
     (inner x y x)))
 
 (assert (= 256 (pow 2 7)))
+
+(defun sub (x y)
+  "FIXNUM subtraction of X and Y."
+  (the fixnum (- x y)))
+
+(assert (= 1 (sub 2 1)))
 
 (defun add (x y)
   "FIXNUM addition of X and Y."

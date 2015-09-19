@@ -1,22 +1,24 @@
-;; Copyright 2015 Victor Fors <krakow89@gmail.com>
+;;;; Copyright 2015 Victor Fors <krakow89@gmail.com>
 
-;; This program is free software: you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
+;;;; This program is free software: you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation, either version 3 of the License, or
+;;;; (at your option) any later version.
 
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
 
-;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (defpackage :quad-tree
   (:use :common-lisp)
   (:export :quad-tree
-	   :make-quad-tree)
+	   :make-quad-tree
+	   :quadtree-set
+	   :quadtree-get)
   (:documentation "A quad-tree implementation."))
 
 (declaim
@@ -52,7 +54,8 @@
   (make-array '(61)
 	      :element-type 'fixnum
 	      :initial-contents (cons 0 (loop for n from 0 to 59
-					   collect (expt 2 n)))))
+					   collect (expt 2 n))))
+  "A lookup table of the powers of 2.")
 
 (defun make-quad-tree (depth)
   "A constructor for a quad-tree."

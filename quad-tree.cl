@@ -1,3 +1,18 @@
+;; Copyright 2015 Victor Fors <krakow89@gmail.com>
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 (defpackage :quad-tree
   (:use :common-lisp)
   (:export :quad-tree
@@ -11,7 +26,6 @@
   (safety 0)
   (space 2)
   (speed 3)))
-
 
 (defclass quad-tree ()
   ((depth
@@ -50,6 +64,7 @@
 		      (quad-tree-contents test-quad-tree)))))
 
 (defun quadtree-set (x y quadtree arg)
+  "Set a position in a quad-tree to a value."
   (labels ((inner (x y depth pow2 tree arg)
 	     (declare (type (simple-array fixnum 1) pow2)
 		      (fixnum x y depth))
@@ -96,6 +111,7 @@
 	   (quad-tree-contents quadtree) arg)))
 
 (defun quadtree-get (x y quadtree)
+  "Get the value associated with a position in a quad-tree."
   (labels ((inner (x y depth pow2 tree)
 	     (declare (type (simple-array fixnum 1) pow2)
 		      (fixnum x y depth))

@@ -24,10 +24,10 @@
 (declaim
  (optimize
   (compilation-speed 0)
-  (debug 0)
-  (safety 0)
+  (debug 3)
+  (safety 2)
   (space 2)
-  (speed 3)))
+  (speed 2)))
 
 (defclass quad-tree ()
   ((depth
@@ -66,9 +66,10 @@
   (labels ((inner (x y depth pow2 tree arg)
 	     (declare (type (simple-array fixnum 1) pow2)
 		      (fixnum x y depth))
+	     (print (list x y depth tree))
 	     (if (>= x 0)
 		 (if (>= y 0)
-		     (if (= 1 depth) 
+		     (if (zerop depth) 
 			 (setf (cdddr tree) arg)
 			 (inner (- x (the fixnum (aref pow2 depth)))
 				(- y (the fixnum (aref pow2 depth)))
@@ -81,10 +82,10 @@
 							     (cons nil nil))))
 					   (cdddr tree))
 					 (cdddr tree)) arg))
-		     (if (= 1 depth)
+		     (if (zerop depth)
 			 (setf (caddr tree) arg)
 			 (inner (- x (the fixnum (aref pow2 depth)))
-				y
+				(+ y (the fixnum (aref pow2 depth)))
 				(1- depth)
 				pow2 (if (null (caddr tree))
 					 (progn
@@ -95,9 +96,9 @@
 					   (caddr tree))
 					 (caddr tree)) arg)))
 		 (if (>= y 0)
-		     (if (= 1 depth)
+		     (if (zerop depth)
 			 (setf (car tree) arg)
-			 (inner x
+			 (inner (+ x (the fixnum (aref pow2 depth)))
 				(- y (the fixnum (aref pow2 depth)))
 				(1- depth)
 				pow2 (if (null (car tree))
@@ -108,10 +109,10 @@
 							     (cons nil nil))))
 					   (car tree))
 					 (car tree)) arg))
-		     (if (= 1 depth)
+		     (if (zerop depth)
 			 (setf (cadr tree) arg)
-			 (inner x
-				y
+			 (inner (+ x (the fixnum (aref pow2 depth)))
+				(+ y (the fixnum (aref pow2 depth)))
 				(1- depth)
 				pow2 (if (null (cadr tree))
 					 (progn
@@ -129,9 +130,10 @@
   (labels ((inner (x y depth pow2 tree)
 	     (declare (type (simple-array fixnum 1) pow2)
 		      (fixnum x y depth))
+	     (print (list x y depth tree)) 
 	     (if (null tree)
 		 nil
-		 (if (zerop depth)
+		 (if (> 0 depth)
 		     tree
 		     (if (>= x 0)
 			 (if (>= y 0)
@@ -140,16 +142,16 @@
 				    (1- depth)
 				    pow2 (cdddr tree))
 			     (inner (- x (the fixnum (aref pow2 depth)))
-				    y
+				    (+ y (the fixnum (aref pow2 depth)))
 				    (1- depth)
 				    pow2 (caddr tree)))
 			 (if (>= y 0)
-			     (inner x
+			     (inner (+ x (the fixnum (aref pow2 depth)))
 				    (- y (the fixnum (aref pow2 depth)))
 				    (1- depth)
 				    pow2 (car tree))
-			     (inner x
-				    y
+			     (inner (+ x (the fixnum (aref pow2 depth)))
+				    (+ y (the fixnum (aref pow2 depth)))
 				    (1- depth)
 				    pow2 (cadr tree))))))))
     (inner x y (quad-tree-depth quadtree) *2pow*

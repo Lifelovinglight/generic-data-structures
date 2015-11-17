@@ -129,7 +129,9 @@
 	   (skip-xml-metadata (cdr input) stack))
 	  ((:xml-closing-tag-open)
 	   (parse-xml-closing-tag (cdr input) stack))
-	  (t (error (format nil "Wrong token: ~a" (car input)))))))
+	  (t (if (stringp (car input))
+		 (parse-xml (cdr input) (cons (car input) stack))
+		 (error (format nil "Wrong token: ~a" (car input))))))))
 
   (defun parse-xml-tag (input stack)
     (if (null input)
